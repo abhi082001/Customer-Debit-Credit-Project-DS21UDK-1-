@@ -1,0 +1,11 @@
+div {
+    height: 200px;
+    width: 200px;
+    background: rgb(243, 243, 239);
+
+    position: fixed;
+    top: 30%;
+    left: 10%;
+    margin-top: -50px;
+    margin-left: -500px;
+}
