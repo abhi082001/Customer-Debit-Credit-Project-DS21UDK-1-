@@ -83,16 +83,16 @@
 			<div class="home_page_nav">
 				<ul class="d-flex flex-column align-items-end justify-content-end">
 					{% if user.is_authenticated %}
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Expense entry page<span></span></a></h4>
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Income entry page<span></span></a></h4>
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Expense Analytics page<span></span></a></h4>
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Income Analytics page<span></span></a></h4>
+					<h4 ><a href="main/user_input" style="color:rgb(144, 201, 13);">Customer entry page<span></span></a></h4>
+					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Merchant page<span></span></a></h4>
+					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Analytics page<span></span></a></h4>
+					
 					
 					{% else %} 
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Expense entry<span></span></a></h4>
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Income entry<span></span></a></h4>
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Expense Analytics<span></span></a></h4>
-					<h4 ><a href="#" style="color:rgb(144, 201, 13);">Income Analytics<span></span></a></h4>
+					<h4 ><a href="accounts/login" style="color:rgb(144, 201, 13);">Customer entry page<span></span></a></h4>
+					<h4 ><a href="accounts/login" style="color:rgb(144, 201, 13);">Merchant page<span></span></a></h4>
+					<h4 ><a href="accounts/login" style="color:rgb(144, 201, 13);">Analytics page<span></span></a></h4>
+					
 					
 					{% endif %}
 					
