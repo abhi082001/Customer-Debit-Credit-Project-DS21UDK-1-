@@ -6,9 +6,8 @@ class OrderFilter(django_filters.FilterSet):
     class Meta:
         model = transactions
         fields = ['Month','Year']
-'''
+
 class OrderFilter1(django_filters.FilterSet):
     class Meta:
         model = transactions
-        fields = ['Expinc']
-'''
+        fields = ['Year']

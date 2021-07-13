@@ -73,7 +73,7 @@
                       <a href='analytics' class = "nav-link">Analytics page</a>
                     </li>
                     <li class="nav-item">
-                      <a href='trans_table' class="nav-link">All Transactions</a>
+                      <a href='cust_table' class="nav-link">All Customers</a>
                     </li>
                   </ul>
                 </li>
@@ -86,18 +86,25 @@
         </aside>
         <div class = "center container mt-5">
             <div class = "col-sm-10 offset-2">
-                <h4 class = "text-center alert alert-dark"> All Customers</h4>
+              <form method="GET">
+                Month filter: {{myFilter.form.Month}} &nbsp; Year filter: {{myFilter.form.Year}} &nbsp;
+                
+                <input type="submit" class="btn btn-success" value="Search"> <br> <br>
+              </form>
                 
                 {% if stu %}
+              
+                <h4 class = "text-center alert alert-dark"> All Transactions</h4>
                 <table class="text-center table table-hover">
                     <thead>
                     <tr>
                     
                     <th scope="col" style="color:black;font-size:20px;">CustomerID</th>
-                    <th scope="col" style="color:black;font-size:20px;">Customer_name</th>
-                    <th scope="col" style="color:black;font-size:20px;">Phone_No</th>
-                    <th scope="col" style="color:black;font-size:20px;">City</th>
-                    <th scope="col" style="color:black;font-size:20px;">Action</th>
+                    <th scope="col" style="color:black;font-size:20px;">Amount</th>
+                    <th scope="col" style="color:black;font-size:20px;">credit_or_debit</th>
+                    <th scope="col" style="color:black;font-size:20px;">Month</th>
+                    <th scope="col" style="color:black;font-size:20px;">Year</th>
+                    
                     </tr>
                     </thead>
                     <tbody>
@@ -105,11 +112,12 @@
                     {% for st in stu %}
                     <tr>
                         
-                        <td style="color:black;font-size:15px;">{{st.Customer_ID}}</td>
-                        <td style="color:black;font-size:15px;">{{st.Customer_name}}</td>
-                        <td style="color:black;font-size:15px;">{{st.Phone_No}}</td>
-                        <td style="color:black;font-size:15px;">{{st.City}}</td>
-                        <td><a href="{% url 'updatedata1' st.id %}" class = 'btn btn-secondary btn-sm'>Edit</a></td>
+                        <td style="color:black;font-size:15px;">{{st.CustomerID}}</td>
+                        <td style="color:black;font-size:15px;">{{st.Amount}}</td>
+                        <td style="color:black;font-size:15px;">{{st.credit_or_debit}}</td>
+                        <td style="color:black;font-size:15px;">{{st.Month}}</td>
+                        <td style="color:black;font-size:15px;">{{st.Year}}</td>
+                        
                     </tr>
                     {% endfor %}
                     </tbody>

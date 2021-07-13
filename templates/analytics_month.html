@@ -119,11 +119,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <h5><input type="submit" class="btn btn-success" value="Balance" name="Balance"></h5>
               </div>
             </form>
+            <br> <br>
+            <div class="card card-primary card-outline offset-1">
+              <div class="card-body">
+                  <h5>Year FIlter</h5>
+                  
+                  <form method = "GET">
+                    {{myFilter.form}} <br> <br>
+                    <input type="submit" class="btn btn-success" value="Search">
+                  </form>
+              </div>
+            </div> 
         </div>
       </div> 
       
       <br>
-      <div class = "col-sm-5 offset-3">
+      <div class = "col-sm-5 offset-2">
             <form action="" method="POST">
               {% csrf_token %}
               <a href='analytics_m' class="btn btn-success">Monthly</a>
@@ -143,6 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       
         
     </div>
+    
   </div>
 </div>
 <!-- ./wrapper -->

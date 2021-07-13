@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.models import User, auth
 from .models import customers, transactions
-from .forms import customerentry, customertrans, merchantupdate, customerupdate
+from .forms import customerentry, customertrans, merchantupdate, customerupdate,transupdate
 from accounts.models import Merchant
 from django.db.models import Sum
 from .utils import get_plot_bar, get_plot_pie, get_plot_line, get_plot_bar1
@@ -9,12 +9,14 @@ from django.contrib import messages
 from datetime import date
 import datetime
 import uuid
-from .filters import OrderFilter
+from .filters import OrderFilter, OrderFilter1
 
 global val
 def val():
     return None
-
+global v2
+def v2():
+    return None
 def user_input(request):
     if request.method == 'POST':
         
@@ -66,11 +68,26 @@ def cust_table(request):
     stud = stud.order_by('Customer_name')   
     return render(request,'cust_table.html',{'stu':stud})
 
+def trans_table(request):
+    if request.user.is_authenticated:
+        log_user = request.user
+    else:
+        return HttpResponseRedirect('accounts/login')
+    
+    stud = transactions.objects.filter(user=log_user)
+    myFilter = OrderFilter(request.GET, queryset=stud)
+    stud = myFilter.qs
+    stud = stud.order_by('-Year','Month')   
+    return render(request,'trans_table.html',{'myFilter':myFilter,'stu':stud})
+
 def cust_trans(request):
     if request.user.is_authenticated:
         log_user = request.user
     else:
         return HttpResponseRedirect('accounts/login')
+    global v2
+    def v2():
+        return None
     today = date.today()
     m=today.month
     d = today.day
@@ -152,6 +169,7 @@ def cust_trans(request):
         myFilter = OrderFilter(request.GET, queryset=stud_t_1)
         stud_t_1 = myFilter.qs
         stud_t_1 = stud_t_1.order_by('-Year','Month')
+
         stud_1 = stud_t.filter(credit_or_debit = 'Debit')
         sum_debit = stud_1.aggregate(p1 = Sum('Amount'))
         stud_2 = stud_t.filter(credit_or_debit = 'Credit')
@@ -161,10 +179,36 @@ def cust_trans(request):
         if sum_credit['p2'] == None:
             sum_credit['p2'] =0
         sum_diff = int(sum_debit['p1']) - int(sum_credit['p2'])
+
+        stud_1 = stud_t_1.filter(credit_or_debit = 'Debit')
+        sum_debit = stud_1.aggregate(p1 = Sum('Amount'))
+        stud_2 = stud_t_1.filter(credit_or_debit = 'Credit')
+        sum_credit = stud_2.aggregate(p2 = Sum('Amount'))
+        if sum_debit['p1'] == None:
+            sum_debit['p1'] =0
+        if sum_credit['p2'] == None:
+            sum_credit['p2'] =0
+        sum_diff_1 = int(sum_debit['p1']) - int(sum_credit['p2'])
         if request.POST.get('AllT'):
             fm = customertrans()
-            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year'})  
-        return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff, 'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"}) 
+            if (request.GET.get('Month')!= None and request.GET.get('Month')!= '') and (request.GET.get('Year')== None or request.GET.get('Year')== ''):
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Month') + ' month'})
+            elif (request.GET.get('Month')== None and request.GET.get('Month')== '') and (request.GET.get('Year')!= None or request.GET.get('Year')!= ''):
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Year') + ' year'})
+            elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
+            else:
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m': 'All'})
+        else:
+            if (request.GET.get('Month')!= None and request.GET.get('Month')!= '') and (request.GET.get('Year')== None or request.GET.get('Year')== ''):
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month'})
+            elif (request.GET.get('Month')== None and request.GET.get('Month')== '') and (request.GET.get('Year')!= None or request.GET.get('Year')!= ''):
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Year') + ' year'})
+            elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
+            else:
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m': 'All'})
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1, 'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"}) 
     if sval == None:
         return HttpResponseRedirect('user_input')
     return render(request,'cust_trans.html',{'stu':stud1})  
@@ -181,6 +225,9 @@ def cust_trans1(request,sval):
     datetime.datetime.now()
     stud = customers.objects.filter(user=log_user)
     stud1 = stud
+    global v2
+    def v2():
+        return sval
     if sval!=None:
         stud1 = stud.filter(Customer_ID=sval)
         if len(stud1)==0:
@@ -243,6 +290,7 @@ def cust_trans1(request,sval):
     myFilter = OrderFilter(request.GET, queryset=stud_t_1)
     stud_t_1 = myFilter.qs
     stud_t_1 = stud_t_1.order_by('-Year','Month')
+
     stud_1 = stud_t.filter(credit_or_debit = 'Debit')
     sum_debit = stud_1.aggregate(p1 = Sum('Amount'))
     stud_2 = stud_t.filter(credit_or_debit = 'Credit')
@@ -252,11 +300,38 @@ def cust_trans1(request,sval):
     if sum_credit['p2'] == None:
         sum_credit['p2'] =0
     sum_diff = int(sum_debit['p1']) - int(sum_credit['p2'])
+
+    stud_1 = stud_t_1.filter(credit_or_debit = 'Debit')
+    sum_debit = stud_1.aggregate(p1 = Sum('Amount'))
+    stud_2 = stud_t_1.filter(credit_or_debit = 'Credit')
+    sum_credit = stud_2.aggregate(p2 = Sum('Amount'))
+    if sum_debit['p1'] == None:
+            sum_debit['p1'] =0
+    if sum_credit['p2'] == None:
+            sum_credit['p2'] =0
+    sum_diff_1 = int(sum_debit['p1']) - int(sum_credit['p2'])
     
     if request.POST.get('AllT'):
         fm = customertrans()
-        return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year'})  
-    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"})
+        if (request.GET.get('Month')!= None and request.GET.get('Month')!= '') and (request.GET.get('Year')== None or request.GET.get('Year')== ''):
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Month') + ' month'})
+        elif (request.GET.get('Month')== None and request.GET.get('Month')== '') and (request.GET.get('Year')!= None or request.GET.get('Year')!= ''):
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Year') + ' year'})
+        elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
+        else:
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m': 'All'})
+    else:
+            if (request.GET.get('Month')!= None and request.GET.get('Month')!= '') and (request.GET.get('Year')== None or request.GET.get('Year')== ''):
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month'})
+            elif (request.GET.get('Month')== None and request.GET.get('Month')== '') and (request.GET.get('Year')!= None or request.GET.get('Year')!= ''):
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Year') + ' year'})
+            elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
+            else:
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m': 'All'})
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1, 'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"}) 
+    #return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"})
 
 def merch_page(request):
     if request.user.is_authenticated:
@@ -307,6 +382,19 @@ def updatedata2(request,id):
         fm1 = customerupdate(instance = pi)
     return render(request,'update2.html', {'form':fm1})
 
+def updatedata3(request,id):
+    if request.method == 'POST':
+        pi  = transactions.objects.get(pk = id)
+        fm1 = transupdate(request.POST, instance = pi)
+        if fm1.is_valid():
+            fm1.save()
+            messages.info(request, 'Updated successfully')
+    else:
+        pi  = transactions.objects.get(pk = id)
+        fm1 = transupdate(instance = pi)
+    sval = str(v2())
+    return render(request,'update3.html', {'form':fm1,'sval':sval})
+
 def analytics(request):
     return render(request, 'analytics.html',{'d':"**select either 'montly' or 'yearly' button to view the respective graphs"})
 
@@ -316,7 +404,10 @@ def analytics_m(request):
     else:
         return HttpResponseRedirect('accounts/login')
     #monthly
+    
     stud = transactions.objects.filter(user=log_user)
+    myFilter = OrderFilter1(request.GET, queryset=stud)
+    stud = myFilter.qs
     stud_1 = stud.filter(credit_or_debit = 'Credit')
     stud_2 = stud.filter(credit_or_debit = 'Debit')
     P = [x.Month for x in stud_1]
@@ -359,19 +450,19 @@ def analytics_m(request):
             d3[k] = d1[k]
     p2 = list(d3.keys())
     q2 = list(d3.values()) 
-
+    
     chart1 = get_plot_bar(P,Q)
     chart2 = get_plot_bar(p1,q1)
-    chart3 = get_plot_line(p2,q2)
+    chart3 = get_plot_bar(p2,q2)
     
     if request.POST.get('Credit'):
-        return render(request,'analytics_month.html',{'stu':stud_1,'chart':chart1,'d':'No record','m':'Monthly Credit bar plot'})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_1,'chart':chart1,'d':'No record','m':'Monthly Credit bar plot'})
     elif request.POST.get('Debit'):
-        return render(request,'analytics_month.html',{'stu':stud_2,'chart':chart2,'d':'No record','m':'Montly Debit bar plot'})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_2,'chart':chart2,'d':'No record','m':'Montly Debit bar plot'})
     if request.POST.get('Balance'):
-        return render(request,'analytics_month.html',{'stu':stud_1,'chart':chart3,'d':'No record','m':'Monthly Balance bar plot'})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart3,'d':'No record','m':'Monthly Balance bar plot'})
     else:
-        return render(request,'analytics_month.html',{'d':"** select one of these three buttons **",'chart':False})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'d':"** select one of these three buttons **",'chart':False})
  #yearly
 
 def analytics_y(request):
@@ -426,7 +517,7 @@ def analytics_y(request):
     p2 = list(d3.keys())
     q2 = list(d3.values()) 
 
-    chart1 = get_plot_bar1(P,Q)
+    chart1 = get_plot_pie(P,Q)
     chart2 = get_plot_bar1(p1,q1)
     chart3 = get_plot_bar1(p2,q2)
     
@@ -435,6 +526,26 @@ def analytics_y(request):
     elif request.POST.get('Debit'):
         return render(request,'analytics_year.html',{'stu':stud_2,'chart':chart2,'d':'No record','m':'Yearly Debit bar plot'})
     if request.POST.get('Balance'):
-        return render(request,'analytics_year.html',{'stu':stud_1,'chart':chart3,'d':'No record','m':'Yearly Balance bar plot'})
+        return render(request,'analytics_year.html',{'stu':stud,'chart':chart3,'d':'No record','m':'Yearly Balance bar plot'})
     else:
         return render(request,'analytics_year.html',{'d':"** select one of these three buttons **",'chart':False})
+
+def delete_data(request, id):
+    if request.method == 'POST':
+        
+        pi = transactions.objects.get(pk = id)
+        cid = v2()
+        pi.delete()
+        if cid == None:
+            return HttpResponseRedirect('/main/cust_trans')
+        else:
+            return HttpResponseRedirect('/main/'+cid)
+
+def redirect(request):
+    cid = v2()
+    if cid == None:
+        return HttpResponseRedirect('/main/cust_trans')
+    else:
+        return HttpResponseRedirect('/main/'+cid)
+
+

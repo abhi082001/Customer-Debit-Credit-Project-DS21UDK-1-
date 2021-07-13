@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django_filters',
     'matplotlib.pyplot',
+    'seaborn',
     'pandas'
 ]
 
