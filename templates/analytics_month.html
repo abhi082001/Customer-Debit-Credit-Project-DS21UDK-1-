@@ -95,7 +95,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><strong>Analytics page</strong></h1>
+            <h1 class="m-0"><strong>Monthly Analytics page</strong></h1>
           </div><!-- /.col -->
           
         </div><!-- /.row -->
@@ -106,19 +106,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     
     <div class="row">
-      
       <div class="card card-primary card-outline offset-1">
-        <br> <br>
         <div class="card-body">
             <form action="" method="POST">
               
               {% csrf_token %}
-              <br> 
+              <br>
               <div class="offset-1">
                 
-                <h5><input type="button" class="btn btn-secondary" value="Credit" name="Credit"></h5>
-                <h5><input type="button" class="btn btn-secondary" value="Debit" name="Debit"></h5>
-                <h5><input type="button" class="btn btn-secondary" value="Balance" name="Balance"></h5>
+                <h5><input type="submit" class="btn btn-success" value="Credit" name="Credit"></h5>
+                <h5><input type="submit" class="btn btn-success" value="Debit" name="Debit"></h5>
+                <h5><input type="submit" class="btn btn-success" value="Balance" name="Balance"></h5>
               </div>
             </form>
         </div>

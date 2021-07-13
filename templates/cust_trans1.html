@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+{% load static %}
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer-credit-debit</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      <div>
+      
+          {% for st in stu %}
+              
+              <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">Customer Name:</h5>  <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.Customer_name}}</h5> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<h5 style="color:black;display:inline">Ph.NO:</h5> <h5 style="color:rgb(134, 47, 192);display:inline">{{st.Phone_No}}</h5></pre> 
+              <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">Customer ID:</h5> <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.Customer_ID}}</h5>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<h5 style="color:black;font-size:20px;display:inline;">City:</h5> <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.City}}</h5></pre>
+          {% endfor %}
+        
+      </div>
+    </ul>
+
+    <!-- Right navbar links -->
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link">
+      <img src="{% static 'dist/img/E-logo.jpg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Udhaar Khata</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        
+        <div class="info">
+          <li class='d-block' style='color:white'>Hi, {{user.first_name}}</li>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item menu-open">
+            
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'user_input'%}" class="nav-link">Customer entry</a> 
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'merch_page'%}" class="nav-link">Merchant page</a> 
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'analytics'%}" class="nav-link">Analytics page</a>
+              </li>
+              
+              <li class="nav-item">
+                <form action="" method="POST">
+                  {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="All transactions" name="AllT">
+                </form>
+              </li>
+              <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Customer transaction</h1>
+          </div><!-- /.col -->
+          
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4">
+            
+            
+            <div class="col-lg-10">
+              <div class="card">
+                <div class="card-body">
+                  <h5>All transactions Balance (rupees): {{diff}}</h5>
+                  
+                </div>
+              </div>
+            </div>
+            
+              <div class="col-lg-10">
+                <div class="card">
+                  <div class="card-body">
+                    
+                    <form action="" method="POST">
+                      {% csrf_token %}
+                      <h5>Amount:</h5>
+                      <h4>{{form.Amount}}</h4>
+                      <br>
+                       
+                        <h5>Month:</h5>
+                        <h5>
+                        {% ifequal f 1 %}
+                        <select name = "month">
+                          <option value="January" selected>January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April">April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal f 2 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February" selected>February</option>
+                          <option value="March">March</option>
+                          <option value="April">April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal f 3 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March" selected>March</option>
+                          <option value="April">April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal f 4 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" selected>April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 5 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May" selected>May</option>
+                          <option value="June">June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 6 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June" selected>June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 7 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July" selected>July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 8 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July" >July</option>
+                          <option value="August" selected>August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 9 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July" >July</option>
+                          <option value="August">August</option>
+                          <option value="September" selected>September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 10 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July" >July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October" selected>October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 11 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July" >July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November" selected>November</option>
+                          <option value="December">December</option>
+                        </select>
+                        {% endifequal %}
+              
+                        {% ifequal f 12 %}
+                        <select name = "month">
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April" >April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July" >July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November" >November</option>
+                          <option value="December" selected>December</option>
+                        </select>
+                        {% endifequal %}
+                        </h5>
+                        <br>
+                        <h5>Year:</h5>
+                        
+                        <h5>
+                        {% ifequal y 2020 %}
+                        <select name = "year">
+                          <option value=2020 selected>2020</option>
+                          <option value=2021>2021</option>
+                          <option value=2022>2022</option>
+                          <option value=2023>2023</option>
+                          <option value=2024>2024</option>
+                          <option value=2025>2025</option>
+                          <option value=2026>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2021 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 selected>2021</option>
+                          <option value=2022>2022</option>
+                          <option value=2023>2023</option>
+                          <option value=2024>2024</option>
+                          <option value=2025>2025</option>
+                          <option value=2026>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2022 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 selected>2022</option>
+                          <option value=2023>2023</option>
+                          <option value=2024>2024</option>
+                          <option value=2025>2025</option>
+                          <option value=2026>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2023 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 selected>2023</option>
+                          <option value=2024>2024</option>
+                          <option value=2025>2025</option>
+                          <option value=2026>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2024 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 selected>2024</option>
+                          <option value=2025>2025</option>
+                          <option value=2026>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2025 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 selected>2025</option>
+                          <option value=2026>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2026 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 >2025</option>
+                          <option value=2026 selected>2026</option>
+                          <option value=2027>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2027 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 >2025</option>
+                          <option value=2026 >2026</option>
+                          <option value=2027 selected>2027</option>
+                          <option value=2028>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2028 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 >2025</option>
+                          <option value=2026 >2026</option>
+                          <option value=2027 >2027</option>
+                          <option value=2028 selected>2028</option>
+                          <option value=2029>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2029 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 >2025</option>
+                          <option value=2026 >2026</option>
+                          <option value=2027 >2027</option>
+                          <option value=2028 >2028</option>
+                          <option value=2029 selected>2029</option>
+                          <option value=2030>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2030 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 >2025</option>
+                          <option value=2026 >2026</option>
+                          <option value=2027 >2027</option>
+                          <option value=2028 >2028</option>
+                          <option value=2029 >2029</option>
+                          <option value=2030 selected>2030</option>
+                          <option value=2031>2031</option>
+                        </select>
+                        {% endifequal %}
+                        {% ifequal y 2031 %}
+                        <select name = "year">
+                          <option value=2020 >2020</option>
+                          <option value=2021 >2021</option>
+                          <option value=2022 >2022</option>
+                          <option value=2023 >2023</option>
+                          <option value=2024 >2024</option>
+                          <option value=2025 >2025</option>
+                          <option value=2026 >2026</option>
+                          <option value=2027 >2027</option>
+                          <option value=2028 >2028</option>
+                          <option value=2029 >2029</option>
+                          <option value=2030 >2030</option>
+                          <option value=2031 selected>2031</option>
+                        </select>
+                        {% endifequal %}
+                        </h5>
+                      <br>
+                      <input type="submit" class="btn btn-success" value="Debit" name="Debit">
+                      <input type="submit" class="btn btn-success" value="Credit" name="Credit">
+                      {% for message in messages %}
+                      <h3> {{message}} </h3>
+                      {% endfor %}
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>  
+          <div class = "col-sm-6 offset-1">
+            <form method="GET">
+              Month filter: {{myFilter.form.Month}} &nbsp; Year filter: {{myFilter.form.Year}} &nbsp;
+              
+              <input type="submit" class="btn btn-success" value="Search"> <br> <br>
+            </form>
+            
+            {% if stut %}
+              
+                <h4 class = "text-center alert alert-dark"> All Transactions</h4>
+                <table class="text-center table table-hover">
+                    <thead>
+                    <tr>
+                    
+                    <th scope="col" style="color:black;font-size:20px;">CustomerID</th>
+                    <th scope="col" style="color:black;font-size:20px;">Amount</th>
+                    <th scope="col" style="color:black;font-size:20px;">credit_or_debit</th>
+                    <th scope="col" style="color:black;font-size:20px;">Month</th>
+                    <th scope="col" style="color:black;font-size:20px;">Year</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {% for st in stut %}
+                    <tr>
+                        
+                        <td style="color:black;font-size:15px;">{{st.CustomerID}}</td>
+                        <td style="color:black;font-size:15px;">{{st.Amount}}</td>
+                        <td style="color:black;font-size:15px;">{{st.credit_or_debit}}</td>
+                        <td style="color:black;font-size:15px;">{{st.Month}}</td>
+                        <td style="color:black;font-size:15px;">{{st.Year}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+              
+            {% else %}
+            <h4 class = "alert alert-secondary">{{s}}</h4>
+            
+            {% endif %}
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ./wrapper -->
+
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>

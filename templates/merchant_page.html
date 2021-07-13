@@ -69,13 +69,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href='ianalytics' class = "nav-link">Income analytics</a>
+                <a href="{% url 'user_input'%}" class="nav-link">Customer entry</a> 
               </li>
+              
               <li class="nav-item">
-                <a href='user_input' class="nav-link">Expense entry page</a> 
-              </li>
-              <li class="nav-item">
-                <a href='user_input1' class="nav-link">Income entry page</a>
+                <a href="{% url 'analytics'%}" class="nav-link">Analytics page</a>
               </li>
               
             </ul>
@@ -95,66 +93,81 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Select month to see that month's <strong>Expense Analytics</strong></h1>
+            <h1 class="m-0"><strong>Merchant profile</strong></h1>
           </div><!-- /.col -->
           
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    
     <!-- Main content -->
-    
-    
-                <div class="row">
-                  <div class="card card-primary card-outline">
-                    <div class="card-body">
-                        <form method="GET">
-                          
-                          <h5 class = "col-sm-3 offset-1 " style="color:black;font-size:20px;">Month filter:</h5>
-                          <h5 class = "col-sm-3 offset-1 " style="color:black;font-size:20px;">{{myFilter.form.Month}}</h5>
-                          
-                          <h5 class = "col-sm-3 offset-1 "><input type="submit" class="btn btn-success" value="Search"></h5>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                {% for st in stu1 %}
+                      <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">Merchant Name:</h5>  <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.Merchant_Name}}</h5> &nbsp; &nbsp; &nbsp; <h5 style="color:black;display:inline">Business Name:</h5> <h5 style="color:rgb(134, 47, 192);display:inline">{{st.Business_Name}}</h5></pre>
+                      <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">GSTIN:</h5> <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.GSTIN}}</h5></pre> <br> 
+                      <div class="card">
+                        <div class="card-body">
+                            <a href="{% url 'updatedata' st.id %}" class = 'btn btn-secondary'>Edit Profile</a>
+                        </div>
+                      </div>
+                {% endfor %}
+              </div>
+              
+            </div>
+            <h5>
+              <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="All customers" name="AllC">
+              </form>
+              
+            </h5>
+          </div>  
+          <div class = "col-sm-6">
+            
+            {{sval}}
+            {% if stu2 %}
+            <h4 class = "text-center alert alert-dark"> All Customers</h4>
+            <table class="text-center table table-hover">
+                <thead>
+                <tr>
+                  <th scope="col" style="color:black;font-size:20px;">CustomerID</th>
+                  <th scope="col" style="color:black;font-size:20px;">Customer_name</th>
+                  <th scope="col" style="color:black;font-size:20px;">Phone_No</th>
+                  <th scope="col" style="color:black;font-size:20px;">City</th>
+                  <th scope="col" style="color:black;font-size:20px;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                {% for st in stu2 %}
+                <tr>
                     
-                          <br>
-                          <div class="offset-1">
-                            
-                            <h4 class="alert alert-light"> {{m}} Total Expense,Income,Balance </h4>
-                            <h4 class = "text-center alert alert-info"> Income (rupees): </h4>
-                            <h4 style="color:black;font-size:20px;"><strong>{{sum_income}}</strong></h4>
-                            <br>
-                            <h4 class = "text-center alert alert-info"> Expense (rupees): </h4>
-                            <h4 style="color:black;font-size:20px;"><strong>{{sum_expense}}</strong></h4>
-                            <br>
-                            <h4 class = "text-center alert alert-info"> Balance (rupees): </h4>
-                            <h4 style="color:black;font-size:20px;"><strong>{{sum_diff}}</strong></h4>
-                          </div>
-                        </form>
-                    </div>
-                  </div> 
-                  
-                  <br>
-                  <div class = "col-sm-5 offset-1">
-                    <h4 class = "text-center alert alert-info"> Your Expense Charts</h4>
-                    {% if stu %}
-                      <h4 class = "text-center alert alert-dark"> {{s}} </h4>
-                      <form action="" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-success" value="Day wise expense" name="bar">
-                        <input type="submit" class="btn btn-success" value="Category wise expense" name="pie">
-                      </form>
-                      {% if chart %} 
-                        <h4 class = "text-center alert alert-dark"> {{m}} </h4>
-                        <img src="data:image/png;base64, {{chart|safe}}">
-                        
-                      {% endif %}
-                    {% else %}
-                      <h4 class = "alert alert-secondary">{{d}}</h4>
-                    {% endif %}
-                  </div>
-                  
-                    
-                </div>
+                  <td style="color:black;font-size:15px;">{{st.Customer_ID}}</td>
+                  <td style="color:black;font-size:15px;">{{st.Customer_name}}</td>
+                  <td style="color:black;font-size:15px;">{{st.Phone_No}}</td>
+                  <td style="color:black;font-size:15px;">{{st.City}}</td>
+                  <td><a href="{% url 'updatedata2' st.id %}" class = 'btn btn-secondary btn-sm'>Edit</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            
+            {% endif %}
+          </div>
+        </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  
+        
   </div>
 </div>
 <!-- ./wrapper -->

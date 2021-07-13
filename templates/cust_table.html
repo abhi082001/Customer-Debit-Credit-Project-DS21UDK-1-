@@ -67,10 +67,10 @@
                       <a href='user_input' class="nav-link">Customer entry</a> 
                     </li>
                     <li class="nav-item">
-                      <a href='analytics' class="nav-link">Expense analytics</a>
+                      <a href='merch_page' class="nav-link">Merchant page</a>
                     </li>
                     <li class="nav-item">
-                      <a href='ianalytics' class = "nav-link">Income analytics</a>
+                      <a href='analytics' class = "nav-link">Analytics page</a>
                     </li>
                   </ul>
                 </li>
@@ -94,7 +94,7 @@
                     <th scope="col" style="color:black;font-size:20px;">Customer_name</th>
                     <th scope="col" style="color:black;font-size:20px;">Phone_No</th>
                     <th scope="col" style="color:black;font-size:20px;">City</th>
-                    
+                    <th scope="col" style="color:black;font-size:20px;">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -106,7 +106,7 @@
                         <td style="color:black;font-size:15px;">{{st.Customer_name}}</td>
                         <td style="color:black;font-size:15px;">{{st.Phone_No}}</td>
                         <td style="color:black;font-size:15px;">{{st.City}}</td>
-            
+                        <td><a href="{% url 'updatedata1' st.id %}" class = 'btn btn-secondary btn-sm'>Edit</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
