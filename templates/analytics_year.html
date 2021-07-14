@@ -43,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-      <img src="{% static 'dist/img/E-logo.jpg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{% static 'dist/img/U-logo.jpg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Udhaar Khata</span>
     </a>
 
@@ -69,15 +69,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href='cust_table' class = "nav-link">All customers</a>
-              </li>
-              <li class="nav-item">
                 <a href='user_input' class="nav-link">Cutomer entry page</a> 
               </li>
               <li class="nav-item">
-                <a href='merch_page' class="nav-link">Merchant page</a>
+                <a href='cust_table' class = "nav-link">All customers</a>
               </li>
               
+              <li class="nav-item">
+                <a href='merch_page' class="nav-link">Merchant page</a>
+              </li>
+              <li class="nav-item">
+                <a href='trans_table' class="nav-link">All Transactions</a>
+              </li>
             </ul>
           </li>
           
@@ -106,6 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     
     <div class="row">
+      <div class="col-lg-3">
       <div class="card card-primary card-outline offset-1">
         <div class="card-body">
             <form action="" method="POST">
@@ -113,21 +117,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
               {% csrf_token %}
               <br>
               <div class="offset-1">
-                
-                <h5><input type="submit" class="btn btn-success" value="Credit" name="Credit"></h5>
-                <h5><input type="submit" class="btn btn-success" value="Debit" name="Debit"></h5>
-                <h5><input type="submit" class="btn btn-success" value="Balance" name="Balance"></h5>
+                <strong>Amount graphs</strong> |&nbsp;| <strong>Percentage graphs</strong>
+                <pre class="tab"><input type="submit" class="btn btn-success" value="Credit" name="Credit1"> &nbsp;|| &nbsp;  <input type="submit" class="btn btn-success" value="Credit" name="Credit2"></pre>
+                <pre class="tab"><input type="submit" class="btn btn-success" value="Debit" name="Debit1"></h5> &nbsp; || &nbsp;   <input type="submit" class="btn btn-success" value="Debit" name="Debit2"></pre>
+                <pre class="tab"><input type="submit" class="btn btn-success" value="Balance" name="Balance1"> ||&nbsp;  <input type="submit" class="btn btn-success" value="Balance" name="Balance2"></pre><br>
+                <pre class="tab">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" value="Balance Trend" name="Trend"></pre><br>
               </div>
             </form>
         </div>
       </div> 
-      
+      </div>
       <br>
-      <div class = "col-sm-5 offset-3">
+      <div class = "col-sm-5 offset-2">
             <form action="" method="POST">
               {% csrf_token %}
               <a href='analytics_m' class="btn btn-success">Monthly</a>
               <a href='analytics_y' class="btn btn-success">Yearly</a>
+              <a href='analytics_1' class="btn btn-success">Customer analytics</a>
             </form> 
             <br>
               {% if stu %}

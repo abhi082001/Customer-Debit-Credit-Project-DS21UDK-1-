@@ -98,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><strong>Monthly Analytics page</strong></h1>
+            <h1 class="m-0"><strong>Customer Analytics page</strong></h1>
           </div><!-- /.col -->
           
         </div><!-- /.row -->
@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-3">
       <div class="card card-primary card-outline offset-1">
         <div class="card-body">
             <form action="" method="POST">
@@ -121,26 +121,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <pre class="tab"><input type="submit" class="btn btn-success" value="Credit" name="Credit1"> &nbsp;|| &nbsp;  <input type="submit" class="btn btn-success" value="Credit" name="Credit2"></pre>
                 <pre class="tab"><input type="submit" class="btn btn-success" value="Debit" name="Debit1"></h5> &nbsp; || &nbsp;   <input type="submit" class="btn btn-success" value="Debit" name="Debit2"></pre>
                 <pre class="tab"><input type="submit" class="btn btn-success" value="Balance" name="Balance1"> ||&nbsp;  <input type="submit" class="btn btn-success" value="Balance" name="Balance2"></pre><br>
-                <pre class="tab">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" value="Balance Trend" name="Trend"></pre>
+                <pre class="tab">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" value="Balance Trend" name="Trend"></pre><br>
+                <pre class="tab">&nbsp;&nbsp;<input type="submit" class="btn btn-success" value="Customer Activity" name="CA"></pre><br>
+
               </div>
             </form>
-            <br> <br>
-            <div class="card card-primary card-outline offset-1">
-              <div class="card-body">
-                  <h5>Year Filter</h5>
-                  
-                  <form method = "GET">
-                    {{myFilter.form}} <br> <br>
-                    <input type="submit" class="btn btn-success" value="Search">
-                  </form>
-              </div>
-            </div> 
         </div>
       </div> 
       </div>
-      
       <br>
-      <div class = "col-sm-5 offset-1">
+      <div class = "col-sm-5 offset-2">
             <form action="" method="POST">
               {% csrf_token %}
               <a href='analytics_m' class="btn btn-success">Monthly</a>
@@ -149,13 +139,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </form> 
             <br>
               {% if stu %}
-                
                 {% if chart %} 
-                  
                   <h4 class = "text-center alert alert-dark"> {{m}} </h4>
                   <img src="data:image/png;base64, {{chart|safe}}">
-                {% else %}
-                <h4 class = "text-center alert alert-dark"> {{m}} </h4>
+                  
                 {% endif %}
               {% else %}
                 <h4 class = "alert alert-secondary">{{d}}</h4>
@@ -164,7 +151,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       
         
     </div>
-    
   </div>
 </div>
 <!-- ./wrapper -->

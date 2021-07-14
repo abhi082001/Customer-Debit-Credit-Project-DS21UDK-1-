@@ -11,6 +11,7 @@ urlpatterns = [
     path('analytics',views.analytics, name='analytics'),
     path('analytics_m',views.analytics_m, name='analytics_m'),
     path('analytics_y',views.analytics_y, name='analytics_y'),
+    path('analytics_1',views.analytics_1, name='analytics_1'),
     path('analytics',views.analytics, name='analytics'),
     path('redirect',views.redirect, name='redirect'),
     path('delete/<int:id>/',views.delete_data, name='deletedata'),

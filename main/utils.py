@@ -15,37 +15,40 @@ def get_graph():
     buffer.close()
     return graph
 
-def get_plot_bar1(x,y):
+def get_plot_bar1(x,y,xt,yt):
     plt.switch_backend('AGG')
     plt.figure(figsize = (8,5))
+    #x.sort()
     x = [str(i) for i in x]
     y=list(y)
+    l=[]
+    for i in range(len(x)):
+        l.append([x[i],y[i]])
+    l.sort()
+    x=[i[0] for i in l]
+    y=[i[1] for i in l]
     data = pd.DataFrame(y, columns=['values'])
     plt.barh(x,y,color=(data['values'] > 0).map({True: 'c', False: 'r'}))
-    #plt.scatter(x,y_1)
-    #plt.bar(x,y)
+    
     
     '''
     if len(x)!=0:
         new_list = range(math.floor(min(x)), math.ceil(max(x))+1)
         plt.yticks(new_list)
-    
-    if len(y)!=0:
-        new_list = range(math.floor(min(y)), math.ceil(max(y))+1)
-        plt.yticks(new_list)
     '''
+    
     
     for index, value in enumerate(y):
         plt.text(value, index, str(value))
     
-    #plt.xticks(rotation=45)
-    plt.ylabel('Years')
-    plt.xlabel('Amount')
+    
+    plt.ylabel(yt)
+    plt.xlabel(xt)
     plt.tight_layout()
     graph = get_graph()
     return graph
 
-def get_plot_bar(x,y):
+def get_plot_bar(x,y,xt,yt):
     plt.switch_backend('AGG')
     plt.figure(figsize = (8,5))
     
@@ -54,22 +57,17 @@ def get_plot_bar(x,y):
     for m in M:
         if m in x:
             l.append([m,y[x.index(m)]])
+    
     x = [i[0] for i in l]
     y_1=[i[1] for i in l]
     data = pd.DataFrame(y_1, columns=['values'])
     plt.barh(x,y_1,color=(data['values'] > 0).map({True: 'c', False: 'r'}))
-    #plt.scatter(x,y_1)
-    #plt.bar(x,y)
-    '''
-    if len(y)!=0:
-        new_list = range(math.floor(min(y)), math.ceil(max(y))+1)
-        plt.yticks(new_list)
-    '''
+    
     for index, value in enumerate(y_1):
         plt.text(value, index, str(value))
-    plt.xticks(rotation=45)
-    plt.ylabel('Month')
-    plt.xlabel('Amount')
+    
+    plt.ylabel(yt)
+    plt.xlabel(xt)
     plt.tight_layout()
     graph = get_graph()
     return graph
@@ -77,13 +75,18 @@ def get_plot_bar(x,y):
 def get_plot_pie(x,y):
     plt.switch_backend('AGG')
     plt.figure(figsize = (6,5))
-    
+    l=[]
+    for i in range(len(x)):
+        if y[i]!=0:
+            l.append([x[i],y[i]])
+    x=[i[0] for i in l]
+    y=[i[1] for i in l]
     plt.pie(y,labels=x,autopct='%0.1f%%')
     plt.tight_layout()
     graph = get_graph()
     return graph
 
-def get_plot_line(x,y):
+def get_plot_line1(x,y,xt,yt):
     plt.switch_backend('AGG')
     plt.figure(figsize = (8,5))
     
@@ -95,20 +98,59 @@ def get_plot_line(x,y):
     x = [i[0] for i in l]
     y_1=[i[1] for i in l]
     data = pd.DataFrame(y_1, columns=['values'])
-    plt.barh(x,y_1,color=(data['values'] > 0).map({True: 'c', False: 'r'}))
-    plt.scatter(y_1,x)
-    plt.plot(y_1,x)
-    #plt.bar(x,y)
+    #plt.barh(x,y_1,color=(data['values'] > 0).map({True: 'c', False: 'r'}))
+    plt.scatter(x,y_1)
+    plt.plot(x,y_1)
+    
+    plt.xticks(rotation=30)
+    plt.ylabel(xt)
+    plt.xlabel(yt)
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
+
+def get_plot_line(x,y,xt,yt):
+    plt.switch_backend('AGG')
+    plt.figure(figsize = (8,5))
+    
+    x = [str(i) for i in x]
+    y=list(y)
+    l=[]
+    for i in range(len(x)):
+        l.append([x[i],y[i]])
+    l.sort()
+    x=[i[0] for i in l]
+    y=[i[1] for i in l]
+    #plt.barh(x,y_1,color=(data['values'] > 0).map({True: 'c', False: 'r'}))
+    plt.scatter(x,y)
+    plt.plot(x,y)
     '''
-    if len(y)!=0:
-        new_list = range(math.floor(min(y)), math.ceil(max(y))+1)
-        plt.xticks(new_list)
-    '''
-    for index, value in enumerate(y_1):
+    for index, value in enumerate(y):
         plt.text(value, index, str(value))
-    plt.xticks(rotation=45)
-    plt.ylabel('Month')
-    plt.xlabel('Amount')
+    '''
+    #plt.xticks(rotation=45)
+    plt.ylabel(xt)
+    plt.xlabel(yt)
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
+
+def get_plot_count(x,y,xt,yt):
+    plt.switch_backend('AGG')
+    plt.figure(figsize = (8,5))
+    #x.sort()
+    x = [str(i) for i in x]
+    y=list(y)
+    l=[]
+    for i in range(len(x)):
+        l.append([x[i],y[i]])
+    l.sort()
+    x=[i[0] for i in l]
+    y=[i[1] for i in l]
+    plt.bar(x,y)
+    plt.scatter(x,y)
+    plt.ylabel(yt)
+    plt.xlabel(xt)
     plt.tight_layout()
     graph = get_graph()
     return graph

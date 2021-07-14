@@ -4,7 +4,7 @@ from .models import customers, transactions
 from .forms import customerentry, customertrans, merchantupdate, customerupdate,transupdate
 from accounts.models import Merchant
 from django.db.models import Sum
-from .utils import get_plot_bar, get_plot_pie, get_plot_line, get_plot_bar1
+from .utils import get_plot_bar, get_plot_pie, get_plot_line, get_plot_bar1, get_plot_line1,get_plot_count
 from django.contrib import messages
 from datetime import date
 import datetime
@@ -198,17 +198,17 @@ def cust_trans(request):
             elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
                 return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
             else:
-                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m': 'All'})
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':"**No record in this month/year",'m': 'All'})
         else:
             if (request.GET.get('Month')!= None and request.GET.get('Month')!= '') and (request.GET.get('Year')== None or request.GET.get('Year')== ''):
-                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month'})
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m':request.GET.get('Month') + ' month'})
             elif (request.GET.get('Month')== None and request.GET.get('Month')== '') and (request.GET.get('Year')!= None or request.GET.get('Year')!= ''):
-                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Year') + ' year'})
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m':request.GET.get('Year') + ' year'})
             elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
-                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
             else:
-                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m': 'All'})
-            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1, 'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"}) 
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m': 'All'})
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1, 'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button"}) 
     if sval == None:
         return HttpResponseRedirect('user_input')
     return render(request,'cust_trans.html',{'stu':stud1})  
@@ -323,14 +323,14 @@ def cust_trans1(request,sval):
             return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'stut':stud_t_1,'f':int(m),'y':int(y),'s':'**No record in this month/year','m': 'All'})
     else:
             if (request.GET.get('Month')!= None and request.GET.get('Month')!= '') and (request.GET.get('Year')== None or request.GET.get('Year')== ''):
-                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month'})
+                return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m':request.GET.get('Month') + ' month'})
             elif (request.GET.get('Month')== None and request.GET.get('Month')== '') and (request.GET.get('Year')!= None or request.GET.get('Year')!= ''):
-                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Year') + ' year'})
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m':request.GET.get('Year') + ' year'})
             elif (request.GET.get('Year')!= None and request.GET.get('Year')!= '') and (request.GET.get('Month')!= None and request.GET.get('Month')!= ''):
-                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m':request.GET.get('Month') + ' month and '+request.GET.get('Year') + ' year'})
             else:
-                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button",'m': 'All'})
-            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1, 'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"}) 
+                    return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button",'m': 'All'})
+            return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1, 'f':int(m),'y':int(y),'s':"**Click on 'Customer's All Transactions' button"}) 
     #return render(request,'cust_trans1.html',{'myFilter':myFilter,'stu':stud1,'form':fm,'diff':sum_diff,'diff1':sum_diff_1,'f':int(m),'y':int(y),'s':"**Click on 'All Transactions' button"})
 
 def merch_page(request):
@@ -343,7 +343,7 @@ def merch_page(request):
     stud2 = customers.objects.filter(user=log_user)
     stud2 = stud2.order_by('Customer_name')  
     if request.POST.get('AllC'):
-        return render(request, 'merchant_page.html', {'stu1':stud1,'stu2':stud2})
+        return render(request, 'merchant_page.html', {'stu1':stud1,'stu2':stud2,'s':'No record'})
     return render(request, 'merchant_page.html', {'stu1':stud1})
 
 def updatedata(request,id):
@@ -451,18 +451,45 @@ def analytics_m(request):
     p2 = list(d3.keys())
     q2 = list(d3.values()) 
     
-    chart1 = get_plot_bar(P,Q)
-    chart2 = get_plot_bar(p1,q1)
-    chart3 = get_plot_bar(p2,q2)
-    
-    if request.POST.get('Credit'):
-        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_1,'chart':chart1,'d':'No record','m':'Monthly Credit bar plot'})
-    elif request.POST.get('Debit'):
-        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_2,'chart':chart2,'d':'No record','m':'Montly Debit bar plot'})
-    if request.POST.get('Balance'):
-        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart3,'d':'No record','m':'Monthly Balance bar plot'})
+    chart1 = get_plot_bar(P,Q,'Credit Amount (rupees)','Months')
+    chart2 = get_plot_bar(p1,q1,'Debit Amount (rupees)','Months')
+    chart3 = get_plot_bar(p2,q2,'Balance Amount (rupees)','Months')
+
+    chart_1 = get_plot_pie(P,Q)
+    chart_2 = get_plot_pie(p1,q1)
+    chart_3 = get_plot_pie(['Credit','Debit'],[sum(Q),sum(q1)])
+    chart_4 = get_plot_line1(p2,q2,'Balance Amount (rupees)','Months')
+    if request.POST.get('Credit1'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_1,'chart':chart1,'d':'No record','m':request.GET.get('Year')+" year's Monthly Credit bar plot"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_1,'chart':chart1,'d':'No record','m':'Monthly Credit bar plot (all years)'})
+    if request.POST.get('Debit1'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_2,'chart':chart2,'d':'No record','m':request.GET.get('Year')+" year's Montly Debit bar plot"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_2,'chart':chart2,'d':'No record','m':"Montly Debit bar plot (all years)"})
+    if request.POST.get('Balance1'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart3,'d':'No record','m':request.GET.get('Year')+" year's Monthly Balance bar plot"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart3,'d':'No record','m':"Monthly Balance bar plot (all years)"})
+    if request.POST.get('Credit2'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_1,'chart':chart_1,'d':'No record','m':request.GET.get('Year')+" year's Monthly Credit percent plot"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_1,'chart':chart_1,'d':'No record','m':'Monthly Credit percent plot (all years)'})
+    if request.POST.get('Debit2'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_2,'chart':chart_2,'d':'No record','m':request.GET.get('Year')+" year's Montly Debit percent plot"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud_2,'chart':chart_2,'d':'No record','m':"Montly Debit percent plot (all years)"})
+    if request.POST.get('Balance2'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart_3,'d':'No record','m':request.GET.get('Year')+" year's Debit-Credit percent in Balance"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart_3,'d':'No record','m':"Debit-Credit percent in Balance"})
+    if request.POST.get('Trend'):
+        if (request.GET.get('Year')!= None and request.GET.get('Year')!= ''):
+            return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart_4,'d':'No record','m':request.GET.get('Year')+" year's month wise balance trend"})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'stu':stud,'chart':chart_4,'d':'No record','m':'Month wise balance trend'})
+
     else:
-        return render(request,'analytics_month.html',{'myFilter':myFilter,'d':"** select one of these three buttons **",'chart':False})
+        return render(request,'analytics_month.html',{'myFilter':myFilter,'d':"** select one of these six buttons **",'chart':False})
  #yearly
 
 def analytics_y(request):
@@ -517,16 +544,28 @@ def analytics_y(request):
     p2 = list(d3.keys())
     q2 = list(d3.values()) 
 
-    chart1 = get_plot_pie(P,Q)
-    chart2 = get_plot_bar1(p1,q1)
-    chart3 = get_plot_bar1(p2,q2)
+    chart1 = get_plot_bar1(P,Q,'Credit Amount (rupees)','Years')
+    chart2 = get_plot_bar1(p1,q1,'Debit Amount (rupees)','Years')
+    chart3 = get_plot_bar1(p2,q2,'Balance Amount (rupees)','Years')
     
-    if request.POST.get('Credit'):
+    chart_1 = get_plot_pie(P,Q)
+    chart_2 = get_plot_pie(p1,q1)
+    chart_3 = get_plot_pie(['Credit','Debit'],[sum(Q),sum(q1)])
+    chart_4 = get_plot_line(p2,q2,'Balance Amount (rupees)','Years')
+    if request.POST.get('Credit1'):
         return render(request,'analytics_year.html',{'stu':stud_1,'chart':chart1,'d':'No record','m':'Yearly Credit bar plot'})
-    elif request.POST.get('Debit'):
+    elif request.POST.get('Debit1'):
         return render(request,'analytics_year.html',{'stu':stud_2,'chart':chart2,'d':'No record','m':'Yearly Debit bar plot'})
-    if request.POST.get('Balance'):
+    if request.POST.get('Balance1'):
         return render(request,'analytics_year.html',{'stu':stud,'chart':chart3,'d':'No record','m':'Yearly Balance bar plot'})
+    if request.POST.get('Credit2'):
+        return render(request,'analytics_year.html',{'stu':stud_1,'chart':chart_1,'d':'No record','m':'Yearly Credit percent plot'})
+    elif request.POST.get('Debit2'):
+        return render(request,'analytics_year.html',{'stu':stud_2,'chart':chart_2,'d':'No record','m':'Yearly Debit percent plot'})
+    if request.POST.get('Balance2'):
+        return render(request,'analytics_year.html',{'stu':stud,'chart':chart_3,'d':'No record','m':'Debit-Credit percent in Balance'})
+    if request.POST.get('Trend'):
+        return render(request,'analytics_year.html',{'stu':stud,'chart':chart_4,'d':'No record','m':'Year wise balance trend'})
     else:
         return render(request,'analytics_year.html',{'d':"** select one of these three buttons **",'chart':False})
 
@@ -548,4 +587,98 @@ def redirect(request):
     else:
         return HttpResponseRedirect('/main/'+cid)
 
+def analytics_1(request):
+    if request.user.is_authenticated:
+        log_user = request.user
+    else:
+        return HttpResponseRedirect('accounts/login')
+    #monthly
+    st = customers.objects.filter(user=log_user)
+    stud = transactions.objects.filter(user=log_user)
+    stud_1 = stud.filter(credit_or_debit = 'Credit')
+    stud_2 = stud.filter(credit_or_debit = 'Debit')
+    Z = [str(x.Customer_ID) for x in st]
+    X = [str(x.CustomerID) for x in stud]
+    P = [str(x.CustomerID) for x in stud_1]
+    Q = [int(y.Amount) for y in stud_1]
+    p1 = [str(x.CustomerID) for x in stud_2]
+    q1 = [int(y.Amount) for y in stud_2]
 
+    d ={}
+    Y=[]
+    for x in Z:
+        #x=int(x)
+        d[x]=0
+    
+    for x in X:
+        d[x] = d[x]+1
+        
+    X = list(d.keys())
+    
+    Y = list(d.values())
+
+    d ={}
+    for x in Z:
+        #x=int(x)
+        d[x]=0
+    i=0
+    for x in P:
+        d[x] = d[x]+Q[i]
+        i+=1
+    P = list(d.keys())
+    
+    Q = list(d.values())
+
+    d1 ={}
+    for x in Z:
+        #x=int(x)
+        d1[x]=0
+    i=0
+    for x in p1:
+        d1[x] = d1[x]+q1[i]
+        i+=1
+    p1 = list(d1.keys())
+    q1 = list(d1.values())
+
+    s_p = set(P)
+    s_p1 = set(p1)
+    Pup = s_p.union(s_p1)
+    Pup = list(Pup)
+    d3 = {}
+    for k in Pup:
+        if (k in P) and (k in p1):
+            d3[k] = d1[k]-d[k]
+        elif k in P:
+            d3[k] = -d[k]
+        elif k in p1:
+            d3[k] = d1[k]
+    p2 = list(d3.keys())
+    q2 = list(d3.values()) 
+
+    chart1 = get_plot_bar1(P,Q,'Credit Amount (rupees)','CustomerID')
+    chart2 = get_plot_bar1(p1,q1,'Debit Amount (rupees)','CustomerID')
+    chart3 = get_plot_bar1(p2,q2,'Balance Amount (rupees)','CustomerID')
+    
+    chart_1 = get_plot_pie(P,Q)
+    chart_2 = get_plot_pie(p1,q1)
+    chart_3 = get_plot_pie(['Credit','Debit'],[sum(Q),sum(q1)])
+    chart_4 = get_plot_line(p2,q2,'Balance Amount (rupees)','CustomerID')
+    chart_5 = get_plot_count(X,Y,'CustomerID','Count of transactions')
+    if request.POST.get('Credit1'):
+        return render(request,'analytics_1.html',{'stu':stud_1,'chart':chart1,'d':'No record','m':'Customer wise Credit bar plot'})
+    elif request.POST.get('Debit1'):
+        return render(request,'analytics_1.html',{'stu':stud_2,'chart':chart2,'d':'No record','m':'Customer wise Debit bar plot'})
+    if request.POST.get('Balance1'):
+        return render(request,'analytics_1.html',{'stu':stud,'chart':chart3,'d':'No record','m':'Customer wise Balance bar plot'})
+    if request.POST.get('Credit2'):
+        return render(request,'analytics_1.html',{'stu':stud_1,'chart':chart_1,'d':'No record','m':'Customer wise Credit percent plot'})
+    elif request.POST.get('Debit2'):
+        return render(request,'analytics_1.html',{'stu':stud_2,'chart':chart_2,'d':'No record','m':'Customer wise Debit percent plot'})
+    if request.POST.get('Balance2'):
+        return render(request,'analytics_1.html',{'stu':stud,'chart':chart_3,'d':'No record','m':'Debit-Credit percent in Balance'})
+    if request.POST.get('Trend'):
+        return render(request,'analytics_1.html',{'stu':stud,'chart':chart_4,'d':'No record','m':'Cutomer wise balance trend'})
+    if request.POST.get('CA'):
+        return render(request,'analytics_1.html',{'stu':stud,'chart':chart_5,'d':'No record','m':'Cutomer Activity'})
+    else:
+        return render(request,'analytics_1.html',{'d':"** select one of these six buttons **",'chart':False})

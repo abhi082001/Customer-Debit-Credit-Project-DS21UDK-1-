@@ -56,6 +56,5 @@ class transupdate(forms.ModelForm):
         widgets = {
             'Amount': forms.NumberInput(attrs={'class':'form-control'}),
             'credit_or_debit': forms.TextInput(attrs={'class':'form-control'}),
-            'Month': forms.TextInput(attrs={'class':'form-control'}),
-            'Year': forms.NumberInput(attrs={'class':'form-control'}),
+            
         }

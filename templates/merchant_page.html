@@ -43,8 +43,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-      <img src="{% static 'dist/img/E-logo.jpg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Expense tracker</span>
+      <img src="{% static 'dist/img/U-logo.jpg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Udhaar Khata</span>
     </a>
 
     <!-- Sidebar -->
@@ -75,7 +75,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="{% url 'analytics'%}" class="nav-link">Analytics page</a>
               </li>
-              
+              <li class="nav-item">
+                <a href='trans_table' class="nav-link">All Transactions</a>
+              </li>
             </ul>
           </li>
           
@@ -109,8 +111,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="card">
               <div class="card-body">
                 {% for st in stu1 %}
-                      <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">Merchant Name:</h5>  <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.Merchant_Name}}</h5> &nbsp; &nbsp; &nbsp; <h5 style="color:black;display:inline">Business Name:</h5> <h5 style="color:rgb(134, 47, 192);display:inline">{{st.Business_Name}}</h5></pre>
-                      <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">GSTIN:</h5> <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline">{{st.GSTIN}}</h5></pre> <br> 
+                      <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">Merchant Name:</h5>  <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline"><strong>{{st.Merchant_Name}}</strong></h5> &nbsp; &nbsp; &nbsp; <h5 style="color:black;display:inline">Business Name:</h5> <h5 style="color:rgb(134, 47, 192);display:inline"><strong>{{st.Business_Name}}</strong></h5></pre>
+                      <pre class="tab"><h5 style="color:black;font-size:20px;display:inline;">GSTIN:</h5> <h5 style="color:rgb(134, 47, 192);font-size:20px;display:inline"><strong>{{st.GSTIN}}</strong></h5></pre> <br> 
                       <div class="card">
                         <div class="card-body">
                             <a href="{% url 'updatedata' st.id %}" class = 'btn btn-secondary'>Edit Profile</a>
@@ -157,7 +159,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 {% endfor %}
                 </tbody>
             </table>
-            
+            {% else %}
+            <h4 class = "text-center alert alert-dark"> {{s}}</h4>
             {% endif %}
           </div>
         </div>
