@@ -534,7 +534,7 @@ def analytics_m(request):
     l=[' ']
     ds = "No record of credit/debit"
     if len(stud)>0:
-        ds = "** select one of these three buttons **"
+        ds = "** select one of these buttons on the left **"
         l = [str(x.user) for x in stud]
     stud_1 = stud.filter(credit_or_debit = 'Credit')
     stud_2 = stud.filter(credit_or_debit = 'Debit')
@@ -671,7 +671,7 @@ def analytics_y(request):
     l=[' ']
     ds = "No record of credit/debit"
     if len(stud)>0:
-        ds = "** select one of these three buttons **"
+        ds = "** select one of these buttons on the left **"
         l = [str(x.user) for x in stud]
     
     #stud = transactions.objects.filter(user=log_user)
@@ -882,7 +882,7 @@ def analytics_1(request):
     if request.POST.get('CA'):
         return render(request,'analytics_1.html',{'stu':stud,'chart':chart_5,'d':'No record','m':'Cutomer Activity'})
     else:
-        return render(request,'analytics_1.html',{'d':"** select one of these six buttons **",'chart':False})
+        return render(request,'analytics_1.html',{'d':"** select one of these buttons on the left **",'chart':False})
 
 def m_analytics(request):
     if request.user.is_authenticated:
@@ -978,4 +978,4 @@ def m_analytics(request):
     if request.POST.get('CA'):
         return render(request,'m_analytics.html',{'stu':stud,'chart':chart_5,'d':'No record','m':'Merchant Activity'})
     else:
-        return render(request,'m_analytics.html',{'d':"** select one of these six buttons **",'chart':False})
+        return render(request,'m_analytics.html',{'d':"** select one of these buttons on the left **",'chart':False})
