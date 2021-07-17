@@ -49,7 +49,7 @@
               
               <div class="info">
                 {% if user.is_superuser %}
-							    <p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.username}} (admin) </strong></p>
+                    <p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.username}} (admin) </strong></p>
                 {% else %} 
                     <p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.first_name}}</strong></p>
                 {% endif %}
@@ -80,7 +80,7 @@
                       <a href='trans_table' class="nav-link">All Transactions</a>
                     </li>
                     <li class="nav-item">
-                      <a href='mycust_table' class="nav-link">My Customers</a>
+                      <a href='cust_table' class="nav-link">All Customers</a>
                     </li>
                   </ul>
                 </li>
@@ -93,7 +93,7 @@
         </aside>
         <div class = "center container mt-5">
             <div class = "col-sm-10 offset-2">
-                <h4 class = "text-center alert alert-dark"> All Customers</h4>
+                <h4 class = "text-center alert alert-dark"> My Customers</h4>
                 
                 {% if stu %}
                 <table class="text-center table table-hover">
@@ -104,7 +104,7 @@
                     <th scope="col" style="color:black;font-size:20px;">Customer_name</th>
                     <th scope="col" style="color:black;font-size:20px;">Phone_No</th>
                     <th scope="col" style="color:black;font-size:20px;">City</th>
-                    <th scope="col" style="color:black;font-size:20px;">Merchant who added</th>
+                    
                     <th scope="col" style="color:black;font-size:20px;">Action</th>
                     </tr>
                     </thead>
@@ -117,8 +117,8 @@
                         <td style="color:black;font-size:15px;">{{st.Customer_name}}</td>
                         <td style="color:black;font-size:15px;">{{st.Phone_No}}</td>
                         <td style="color:black;font-size:15px;">{{st.City}}</td>
-                        <td style="color:black;font-size:15px;">{{st.user}}</td>
-                        <td><a href="{% url 'updatedata1' st.id %}" class = 'btn btn-secondary btn-sm'>Edit</a></td>
+                        <td><a href="{% url 'updatedata_1' st.id %}" class = 'btn btn-secondary btn-sm'>Edit</a></td>
+                        
                     </tr>
                     {% endfor %}
                     </tbody>

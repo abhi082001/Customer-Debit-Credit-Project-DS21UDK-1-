@@ -19,7 +19,7 @@
     <div class="background_image" style="background-image:url({% static 'images/blue.jpg' %})"></div>
     <div class="container mt-5">
         <br> <br>
-        <h4 class="text-center" style="color:white;font-size:20px;"> Login </h4>
+        <h4  class="text-center" style="color:white;font-size:20px;"> Login </h4>
         <form action="login" method="post" class="text-center">
             {% csrf_token %}
             <input type="text" name="username" placeholder="username"><br> <br>
@@ -28,13 +28,14 @@
             <h5><a href='register' class = "btn btn-alert" style="color:rgb(144, 201, 13);">Register</a></h5>
 
             <h5><a href="/" class = "btn btn-warning">Home</a></h5>
+            <div>
+                {% for message in messages %}
+                <h3 class="text-center" style="color:black;font-size:20px;"> {{message}} </h3>
+                {% endfor %}
+            </div>
         </form>
     </div>
-    <div>
-        {% for message in messages %}
-        <h3> {{message}} </h3>
-        {% endfor %}
-    </div>
+    
 
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>

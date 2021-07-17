@@ -53,7 +53,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         
         <div class="info">
-          <li class='d-block' style='color:white'>Hi, {{user.first_name}}</li>
+          {% if user.is_superuser %}
+							<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.username}} (admin) </strong></p>
+					{% else %} 
+							<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.first_name}}</strong></p>
+					{% endif %}
         </div>
       </div>
 
@@ -74,7 +78,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href='cust_table' class = "nav-link">All customers</a>
               </li>
-              
+              <li class="nav-item">
+                <a href='mycust_table' class="nav-link">My Customers</a>
+              </li>
               <li class="nav-item">
                 <a href='merch_page' class="nav-link">Merchant page</a>
               </li>
@@ -109,28 +115,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     
     <div class="row">
-      <div class="col-lg-3">
-      <div class="card card-primary card-outline offset-1">
-        
-        <div class="card-body">
-            <form action="" method="POST">
-              
-              {% csrf_token %}
-              <br> 
-              
-                
-                <div class="offset-1">
-                  <strong>Amount graphs</strong> |&nbsp;| <strong>Percentage graphs</strong>
-                  <pre class="tab"><input type="submit" class="btn btn-secondary" value="Credit" name="Credit1"> &nbsp;|| &nbsp;  <input type="submit" class="btn btn-secondary" value="Credit" name="Credit2"></pre>
-                  <pre class="tab"><input type="submit" class="btn btn-secondary" value="Debit" name="Debit1"></h5> &nbsp; || &nbsp;   <input type="submit" class="btn btn-secondary" value="Debit" name="Debit2"></pre>
-                  <pre class="tab"><input type="submit" class="btn btn-secondary" value="Balance" name="Balance1"> ||&nbsp;  <input type="submit" class="btn btn-secondary" value="Balance" name="Balance2"></pre><br>
-                  <pre class="tab">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-secondary" value="Balance Trend" name="Trend"></pre><br>
-                </div>
-              
-            </form>
-        </div>
-      </div> 
-      </div>
+      
+      
       <br>
       <div class = "col-sm-5 offset-2">
             <form action="" method="POST">
@@ -138,6 +124,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <a href='analytics_m' class="btn btn-success">Monthly</a>
               <a href='analytics_y' class="btn btn-success">Yearly</a>
               <a href='analytics_1' class="btn btn-success">Customer analytics</a>
+              <a href='m_analytics' class="btn btn-success">Merchant analytics</a>
             </form> 
             <br>
               {% if stu %}

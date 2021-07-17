@@ -58,7 +58,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         
         <div class="info">
-          <li class='d-block' style='color:white'>Hi, {{user.first_name}}</li>
+          {% if user.is_superuser %}
+							<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.username}} (admin) </strong></p>
+					{% else %} 
+							<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.first_name}}</strong></p>
+					{% endif %}
         </div>
       </div>
 
@@ -73,6 +77,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item menu-open">
             
             <ul class="nav nav-treeview">
+              {% ifnotequal x 1 %}
+              <li class="nav-item offset-1">
+                <a href="{% url 'cust_trans'%}" class="btn btn-danger"><-Back</a>
+              </li>
+              {% endifnotequal %}
               <li class="nav-item">
                 <a href="{% url 'user_input'%}" class="nav-link">Customer entry</a> 
               </li>
@@ -88,6 +97,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   {% csrf_token %}
                 <input type="submit" class="btn btn-success" value="Cutomer's All transactions" name="AllT">
                 </form>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'trans_table1' %}" class="nav-link">All Transactions</a>
               </li>
               <li class="nav-item">
                 <a href="/" class="nav-link">Home</a>
@@ -112,7 +124,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="card card-primary card-outline">
       <div class="card">
         <div class="card-body">
-          <h5>All transactions Balance (rupees): <strong>₹{{diff}}</strong></h5> <h5>Cutomer specific <strong>{{m}} </strong>transactions Balance (rupees): <strong>₹{{diff1}}</strong></h5> 
+          <h5>Merchant's All transactions Balance (rupees): <strong>₹{{diff}}</strong></h5> <h5>Cutomer's <strong>{{m}} </strong>transactions Balance (rupees): <strong>₹{{diff1}}</strong></h5> 
+          <h5>Cutomer's <strong>{{m}} </strong>transactions Balance with this Merchant (rupees): <strong>₹{{diff2}}</strong></h5> 
           
         </div>
       </div>
@@ -560,7 +573,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
               </div>
           </div>  
-          <div class = "col-sm-6 offset-1">
+          <div class = "col-sm-7 offset-1">
             <form method="GET">
               Month filter: {{myFilter.form.Month}} &nbsp; Year filter: {{myFilter.form.Year}} &nbsp;
               
@@ -579,6 +592,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <th scope="col" style="color:black;font-size:20px;">credit_or_debit</th>
                     <th scope="col" style="color:black;font-size:20px;">Month</th>
                     <th scope="col" style="color:black;font-size:20px;">Year</th>
+                    <th scope="col" style="color:black;font-size:20px;">Merchant</th>
                     <th scope="col" style="color:black;font-size:20px;">Action</th>
                     </tr>
                     </thead>
@@ -592,6 +606,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <td style="color:black;font-size:15px;">{{st.credit_or_debit}}</td>
                         <td style="color:black;font-size:15px;">{{st.Month}}</td>
                         <td style="color:black;font-size:15px;">{{st.Year}}</td>
+                        <td style="color:black;font-size:15px;">{{st.user}}</td>
                         <td>
                           <a href="{% url 'updatedata3' st.id %}" class = 'btn btn-secondary btn-sm'>Edit</a>
                           <form action = "{% url 'deletedata' st.id %}" method="POST" class = "d-inline">

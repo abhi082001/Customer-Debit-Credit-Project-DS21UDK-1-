@@ -81,7 +81,10 @@ def get_plot_pie(x,y):
             l.append([x[i],y[i]])
     x=[i[0] for i in l]
     y=[i[1] for i in l]
-    plt.pie(y,labels=x,autopct='%0.1f%%')
+    if len(x)<1:
+        plt.pie(y,labels=x,autopct='%0.1f%%',normalize=False)
+    else:
+        plt.pie(y,labels=x,autopct='%0.1f%%')
     plt.tight_layout()
     graph = get_graph()
     return graph
@@ -129,6 +132,7 @@ def get_plot_line(x,y,xt,yt):
         plt.text(value, index, str(value))
     '''
     #plt.xticks(rotation=45)
+    plt.xticks(rotation=30)
     plt.ylabel(xt)
     plt.xlabel(yt)
     plt.tight_layout()
@@ -149,6 +153,7 @@ def get_plot_count(x,y,xt,yt):
     y=[i[1] for i in l]
     plt.bar(x,y)
     plt.scatter(x,y)
+    plt.xticks(rotation=30)
     plt.ylabel(yt)
     plt.xlabel(xt)
     plt.tight_layout()

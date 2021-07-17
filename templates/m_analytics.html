@@ -73,20 +73,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href='merch_page' class="nav-link">Merchant page</a> 
+                <a href='user_input' class="nav-link">Cutomer entry page</a> 
               </li>
               <li class="nav-item">
-                <a href='analytics' class="nav-link">Analytics page</a>
-              </li>
-              <li class="nav-item">
-                <a href='cust_table' class="nav-link">All Customers</a>
-              </li>
-              
-              <li class="nav-item">
-                <a href='trans_table' class="nav-link">All Transactions</a>
+                <a href='cust_table' class = "nav-link">All customers</a>
               </li>
               <li class="nav-item">
                 <a href='mycust_table' class="nav-link">My Customers</a>
+              </li>
+              <li class="nav-item">
+                <a href='merch_page' class="nav-link">Merchant page</a>
+              </li>
+              <li class="nav-item">
+                <a href='trans_table' class="nav-link">All Transactions</a>
               </li>
             </ul>
           </li>
@@ -105,60 +104,63 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><strong>Add New Customer</strong></h1>
+            <h1 class="m-0"><strong>All Merchants Analytics page</strong></h1>
           </div><!-- /.col -->
           
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+    
     <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          
-          <div class="col-lg-4">
-            <div class="card">
-              <div class="card-body">
-                
-                <form action="" method="POST">
-                  {% csrf_token %}
-                  {{form.as_p}}
-                  <br>
-                  <input type="submit" class="btn btn-success" value="Add new customer"> <br>
-                  
-                  {% for message in messages %}
-                  <h3> {{message}} </h3>
-                  {% endfor %}
-                </form>
+    
+    <div class="row">
+      <div class="col-lg-3">
+      <div class="card card-primary card-outline offset-1">
+        <div class="card-body">
+            <form action="" method="POST">
+              
+              {% csrf_token %}
+              <br>
+              <div class="offset-1">
+                <strong>Amount graphs</strong> |&nbsp;| <strong>Percentage graphs</strong>
+                <pre class="tab"><input type="submit" class="btn btn-success" value="Credit" name="Credit1"> &nbsp;|| &nbsp;  <input type="submit" class="btn btn-success" value="Credit" name="Credit2"></pre>
+                <pre class="tab"><input type="submit" class="btn btn-success" value="Debit" name="Debit1"></h5> &nbsp; || &nbsp;   <input type="submit" class="btn btn-success" value="Debit" name="Debit2"></pre>
+                <pre class="tab"><input type="submit" class="btn btn-success" value="Balance" name="Balance1"> ||&nbsp;  <input type="submit" class="btn btn-success" value="Balance" name="Balance2"></pre><br>
+                <pre class="tab">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" value="Balance Trend" name="Trend"></pre><br>
+                <pre class="tab">&nbsp;&nbsp;<input type="submit" class="btn btn-success" value="Merchant Activity" name="CA"></pre><br>
+
               </div>
-            </div>
-          </div>
-          <div class ="col-lg-4 offset-2">
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <div class="col-lg-10">
-                <form method="GET">
-                  <h5 style="color:black;font-size:20px;">Search Customer</h5>
-                  <input type = "text" name = "id" placeholder="CustomerID/Name/City"> <br> <br>
-                  <button type="submit" class="btn btn-success">Search</button> <br> <br>
-                </form>
-                </div>
-              </div>
-            </div>
-          </div>
+            </form>
         </div>
+      </div> 
       </div>
+      <br>
+      <div class = "col-sm-5 offset-2">
+            <form action="" method="POST">
+              {% csrf_token %}
+              <a href='analytics_m' class="btn btn-success">Monthly</a>
+              <a href='analytics_y' class="btn btn-success">Yearly</a>
+              <a href='analytics_1' class="btn btn-success">Customer analytics</a>
+              <a href='m_analytics' class="btn btn-success">Merchant analytics</a>
+            </form> 
+            <br>
+              {% if stu %}
+                {% if chart %} 
+                  <h4 class = "text-center alert alert-dark"> {{m}} </h4>
+                  <img src="data:image/png;base64, {{chart|safe}}">
+                  
+                {% endif %}
+              {% else %}
+                <h4 class = "alert alert-secondary">{{d}}</h4>
+              {% endif %}
+      </div>
+      
+        
     </div>
   </div>
 </div>
 <!-- ./wrapper -->
-<footer class="main-footer">
-  <!-- To the right -->
-  <!-- Default to the left -->
-  
-</footer>
 
 <!-- REQUIRED SCRIPTS -->
 

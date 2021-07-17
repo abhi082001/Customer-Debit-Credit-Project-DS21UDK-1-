@@ -35,7 +35,11 @@
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									
 									{% if user.is_authenticated %}
-									<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.first_name}} </strong></p>
+										{% if user.is_superuser %}
+											<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.username}} (admin) </strong></p>
+										{% else %} 
+										<p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.first_name}}</strong></p>
+										{% endif %}
 									<li style="margin:15px;font-size:17px;"><a href="accounts/logout">Logout</a></li>
 									{% else %}
 									<li><a href="accounts/register">Register</a></li>

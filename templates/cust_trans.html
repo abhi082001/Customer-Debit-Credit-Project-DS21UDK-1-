@@ -48,7 +48,11 @@
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               
               <div class="info">
-                <li class='d-block' style='color:white'>Hi, {{user.first_name}}</li>
+                {% if user.is_superuser %}
+                    <p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.username}} (admin) </strong></p>
+                {% else %} 
+                    <p style="color:rgb(242, 240, 243);font-size:20px;"><strong> Hi, {{user.first_name}}</strong></p>
+                {% endif %}
               </div>
             </div>
       

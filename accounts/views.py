@@ -39,6 +39,14 @@ def register(request):
         if first_name == '':
             messages.info(request, 'please give your firstname')
             return redirect('register')
+        
+        if business_name == '':
+            messages.info(request, 'please give your business name')
+            return redirect('register')
+
+        if GSTIN == '':
+            messages.info(request, 'please give your GSTIN')
+            return redirect('register')
 
         if username == '':
             messages.info(request, 'please give a username')
@@ -47,14 +55,7 @@ def register(request):
         if password1=='':
             messages.info(request, 'please give a password')
             return redirect('register')
-        
-        if business_name == '':
-            messages.info(request, 'please give your business name')
-            return redirect('register')
-        
-        if GSTIN == '':
-            messages.info(request, 'please give your GSTIN')
-            return redirect('register')
+    
         
         if password1==password2:
             if User.objects.filter(username=username).exists():
@@ -62,6 +63,9 @@ def register(request):
                 return redirect('register')
             elif User.objects.filter(email=email).exists():
                 messages.info(request,'email taken')
+                return redirect('register')
+            elif User.objects.filter(password=password1).exists():
+                messages.info(request,'password taken')
                 return redirect('register')
             else:
 
