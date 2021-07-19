@@ -978,4 +978,4 @@ def m_analytics(request):
     if request.POST.get('CA'):
         return render(request,'m_analytics.html',{'stu':stud,'chart':chart_5,'d':'No record','m':'Merchant Activity'})
     else:
-        return render(request,'m_analytics.html',{'d':"** select one of these buttons on the left **",'chart':False})
+        return render(request,'m_analytics.html',{'d':"** select one of these buttons on the left **",'chart': False})
